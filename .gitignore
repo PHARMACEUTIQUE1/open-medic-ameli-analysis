@@ -39,8 +39,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
 
 # translation temp files
 po/*~
@@ -49,6 +47,10 @@ po/*~
 rsconnect/
 .positai
 
-# Données traitées
-data/processed/*.csv
-data/processed/*.rds
+# Données du projet
+data/raw/*
+data/processed/*
+
+# Conserver l'arborescence
+!data/raw/.gitkeep
+!data/processed/.gitkeep
