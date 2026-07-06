@@ -19,7 +19,11 @@ open_medic_2025 <- open_medic_2025 |>
     PSP_SPE = as.character(PSP_SPE)
   )
 
-cip13 <- cip13 |> mutate(CIP13 = as.character(CIP13))
+cip13 <- cip13 |>
+  mutate(CIP13 = as.character(CIP13)) |>
+  group_by(CIP13) |>
+  slice_tail(n = 1) |>
+  ungroup()
 top_gen <- top_gen |> mutate(TOP_GEN = as.character(TOP_GEN))
 gen_num <- gen_num |> mutate(GEN_NUM = as.character(GEN_NUM))
 sexe <- sexe |> mutate(SEXE = as.character(SEXE))

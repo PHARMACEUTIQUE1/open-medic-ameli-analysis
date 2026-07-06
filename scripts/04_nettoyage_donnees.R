@@ -30,14 +30,17 @@ message("Nettoyage étape 1 terminé : valeurs négatives supprimées.")
 # internationale utilisée en pharmacie.
 
 open_medic_clean <- open_medic_clean |>
-  select(ATC1, l_ATC1,ATC2, L_ATC2,ATC3, L_ATC3,
-    ATC4, L_ATC4,ATC5, L_ATC5,CIP13, `Libellé CIP13`,
+  select(
+    ATC1, l_ATC1, ATC2, L_ATC2, ATC3, L_ATC3,
+    ATC4, L_ATC4, ATC5, L_ATC5,
+    CIP13, `Libellé CIP13`,
+    TOP_GEN, `Libellé Top Générique`,
     `Libellé Tranche d'Age Bénéficiaire`,
     `Libellé Sexe du Bénéficiaire`,
     `Libellé Région de Résidence du Bénéficiaire`,
-    `Libellé Prescripteur`,BOITES, REM, BSE
+    `Libellé Prescripteur`,
+    BOITES, REM, BSE
   )
-glimpse(open_medic_clean)
 message("Nettoyage étape 2 terminé : colonnes pas importants supprimées.")
 
 
@@ -56,6 +59,8 @@ open_medic_clean <- open_medic_clean |>
     lib_atc5 = L_ATC5,
     cip13 = CIP13,
     lib_cip13 = `Libellé CIP13`,
+    top_gen = TOP_GEN,
+    lib_top_gen = `Libellé Top Générique`,
     tranche_age = `Libellé Tranche d'Age Bénéficiaire`,
     sexe = `Libellé Sexe du Bénéficiaire`,
     region = `Libellé Région de Résidence du Bénéficiaire`,
@@ -101,36 +106,6 @@ controle_cip13 <- open_medic_clean |>
 controle_cip13
 nb_cip13_distincts <- n_distinct(open_medic_clean$cip13)
 nb_cip13_distincts
-
-
-
-
-
-# ------------- Journal des anomalies -------------
-anomalies <- tibble(
-  anomalie = c(
-    "Valeurs négatives",
-    "Doublons dans le dictionnaire CIP13",
-    "Modalités inconnues",
-    "REM supérieur à BSE"
-  ),
-  nb_observations = c(
-    nrow(valeurs_negatives),
-    nrow(doublons_cip13),
-    modalites_inconnues$prescripteur_inconnu +
-      modalites_inconnues$age_inconnu +
-      modalites_inconnues$sexe_inconnu +
-      modalites_inconnues$region_inconnue,
-    coherence_metier$rem_superieur_bse
-  ),
-  decision = c(
-    "Supprimées",
-    "Dernier libellé conservé",
-    "Conservées",
-    "À analyser"
-  )
-)
-anomalies
 
 
 # --------------- Journal des anomalies détectées ------------------
@@ -196,3 +171,12 @@ open_medic_clean |>
   arrange(desc(nb_na))
 
 message("Validation finale terminée.")
+
+
+#-------------- Sauvegarde des données nettoyées ------------
+
+dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
+saveRDS(open_medic_clean, "data/processed/open_medic_clean.rds")
+write_csv(open_medic_clean, "data/processed/open_medic_clean.csv")
+
+message("Données nettoyées sauvegardées.")
