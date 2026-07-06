@@ -1,0 +1,5 @@
+anomalie,nb_observations,decision
+Valeurs négatives,238,Supprimées pour l'analyse descriptive
+Doublons dans le dictionnaire CIP13,219,Dernier libellé conservé lors de la préparation
+Modalités inconnues,823426,Conservées et harmonisées sous la modalité 'Inconnu'
+REM supérieur à BSE,336,Conservées pour analyse complémentaire
