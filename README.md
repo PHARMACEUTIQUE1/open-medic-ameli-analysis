@@ -45,10 +45,12 @@ Ces données sont librement accessibles via la plateforme Open Data de l'Assuran
 Les principaux objectifs sont :
 
 - Importer les données Open Medic
+- Préparer les données
+- Réaliser un audit de la qualité des données
 - Nettoyer les données
-- Documenter les variables
+- Documenter les décisions de traitement
+- Construire un registre de qualité des données
 - Réaliser une analyse exploratoire (EDA)
-- Construire des indicateurs métiers
 - Produire des visualisations professionnelles
 - Préparer les données pour des modèles de Machine Learning
 
@@ -90,20 +92,23 @@ open-medic-ameli-analysis/
 │   └── dictionnaires/
 │
 ├── scripts/
-│   ├── 01_import.R
-│   ├── 02_preparation.R
-│   ├── 03_nettoyage.R
-│   ├── 04_analyse_exploratoire.R
-│   └── 05_visualisations.R
+│   ├── 01_import_donnees.R
+│   ├── 02_preparation_donnees.R
+│   ├── 03_controle_qualite_donnees.R
+│   ├── 04_nettoyage_donnees.R
+│   ├── 05_analyse_exploratoire.R
+│   └── 06_visualisations.R
 │
 ├── outputs/
+│   ├── anomalies/
 │   ├── figures/
-│   ├── tableaux/
-│   └── rapports/
+│   ├── rapports/
+│   └── tableaux/
 │
 ├── docs/
 │
 ├── README.md
+├── DESCRIPTION.md
 │
 └── LICENSE
 ```
@@ -137,7 +142,10 @@ Le projet utilise :
 # Analyses réalisées
 
 Les analyses porteront notamment sur :
-
+- Audit de la qualité des données
+- Contrôle des valeurs manquantes
+- Contrôle des doublons
+- Contrôle de la cohérence métier
 - Distribution des remboursements
 - Médicaments les plus remboursés
 - Analyse par classe ATC
@@ -169,8 +177,10 @@ Les prochaines étapes du projet seront :
 | Création du dépôt | ✅ |
 | Documentation | ✅ |
 | Importation des données | ✅ |
-| Nettoyage des données | 🔄 |
-| Analyse exploratoire | 🔄 |
+| Préparation des données | ✅ |
+| Contrôle qualité des données | ✅ |
+| Nettoyage des données | ✅ |
+| Analyse exploratoire | ⏳ |
 | Visualisations | ⏳ |
 | Dashboard | ⏳ |
 | Machine Learning | ⏳ |
@@ -185,4 +195,4 @@ Portfolio Data Science • Analyse de données • Machine Learning • Pharmaci
 
 ---
 
-> **Objectif du projet :** développer une analyse reproductible des données Open Medic en appliquant les bonnes pratiques de la Data Science avec R.
+> **Objectif du projet :** développer une analyse reproductible des données Open Medic en appliquant les bonnes pratiques de la Data Science avec R. Le projet applique les bonnes pratiques de la Data Science en séparant les étapes d'importation, de préparation, d'audit qualité, de nettoyage et d'analyse des données afin de garantir la reproductibilité des traitements.
