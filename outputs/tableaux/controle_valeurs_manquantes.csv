@@ -1,0 +1,30 @@
+variable,nb_na,pct_na
+...3,1560403,63.47937412484145
+Libellé Numéro Groupe Générique,1401607,57.01933098628793
+GEN_NUM,1396719,56.820480317119625
+Libellé Région de Résidence du Bénéficiaire,177840,7.234779665485008
+Libellé CIP13,60969,2.4803041015798213
+L_ATC4,1151,0.04682428809589093
+l_cip13,45,0.0018306628708211052
+ATC1,0,0
+l_ATC1,0,0
+ATC2,0,0
+L_ATC2,0,0
+ATC3,0,0
+L_ATC3,0,0
+ATC4,0,0
+ATC5,0,0
+L_ATC5,0,0
+CIP13,0,0
+TOP_GEN,0,0
+AGE,0,0
+sexe,0,0
+BEN_REG,0,0
+PSP_SPE,0,0
+BOITES,0,0
+REM,0,0
+BSE,0,0
+Libellé Top Générique,0,0
+Libellé Tranche d'Age Bénéficiaire,0,0
+Libellé Sexe du Bénéficiaire,0,0
+Libellé Prescripteur,0,0
