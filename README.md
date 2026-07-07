@@ -1,11 +1,14 @@
-# 💊 Analyse des données Open Medic (AMELI)
+# 💊 Analyse exploratoire des remboursements de médicaments en France
+
+## Données Open Medic — Assurance Maladie (AMELI)
 
 <p align="center">
 
 ![R](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)
 ![tidyverse](https://img.shields.io/badge/tidyverse-1A162D?style=for-the-badge&logo=rstudio)
+![ggplot2](https://img.shields.io/badge/ggplot2-DataViz-blue?style=for-the-badge)
+![R Markdown](https://img.shields.io/badge/R%20Markdown-Report-orange?style=for-the-badge)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
-![Licence MIT](https://img.shields.io/badge/Licence-MIT-success?style=for-the-badge)
 
 </p>
 
@@ -13,11 +16,17 @@
 
 # Présentation
 
-Ce projet propose une analyse exploratoire des données **Open Medic** publiées par l'Assurance Maladie (AMELI).
+Ce projet propose une analyse exploratoire des données **Open Medic** publiées par l'Assurance Maladie.
 
-L'objectif est de construire un workflow complet d'analyse de données pharmaceutiques avec **R**, depuis l'importation des données jusqu'à la production d'indicateurs et de visualisations permettant de mieux comprendre les remboursements de médicaments en France.
+L'objectif est de construire un workflow complet d'analyse de données pharmaceutiques avec **R**, depuis l'importation des données jusqu'à la production d'indicateurs, de visualisations et d'un rapport métier permettant de mieux comprendre les remboursements de médicaments en France.
 
-Ce projet s'inscrit dans la construction de mon portfolio de **Data Scientist**.
+Cette étude met l'accent sur la production d'**insights métier** à partir de données publiques de santé, en appliquant une démarche reproductible de Data Analytics sous R.
+
+---
+
+# Rapport métier
+
+➡️ [Lire l'article interactif](docs/article_open_medic.html)
 
 ---
 
@@ -27,14 +36,14 @@ Les données **Open Medic** proviennent du **Système National des Données de S
 
 Elles recensent les remboursements de médicaments délivrés en pharmacie de ville selon plusieurs dimensions :
 
-- Classification ATC
-- Médicament (CIP13)
-- Région
-- Sexe
-- Classe d'âge
-- Spécialité du prescripteur
-- Montants remboursés
-- Nombre de boîtes délivrées
+- classification ATC ;
+- médicament ;
+- région ;
+- sexe ;
+- tranche d'âge ;
+- spécialité du prescripteur ;
+- montants remboursés ;
+- nombre de boîtes délivrées.
 
 Ces données sont librement accessibles via la plateforme Open Data de l'Assurance Maladie.
 
@@ -42,40 +51,49 @@ Ces données sont librement accessibles via la plateforme Open Data de l'Assuran
 
 # Objectifs
 
-Les principaux objectifs sont :
+Les principaux objectifs du projet sont :
 
-- Importer les données Open Medic
-- Préparer les données
-- Réaliser un audit de la qualité des données
-- Nettoyer les données
-- Documenter les décisions de traitement
-- Construire un registre de qualité des données
-- Réaliser une analyse exploratoire (EDA)
-- Produire des visualisations professionnelles
-- Préparer les données pour des modèles de Machine Learning
+- importer les données Open Medic ;
+- préparer les données ;
+- réaliser un audit de la qualité des données ;
+- nettoyer les données ;
+- documenter les décisions de traitement ;
+- construire un registre de qualité des données ;
+- créer des variables métier ;
+- réaliser une analyse exploratoire orientée métier ;
+- produire des visualisations professionnelles ;
+- générer un rapport d'analyse reproductible avec R Markdown.
 
 ---
 
-# Architecture du projet
+# Pipeline du projet
 
 ```text
 Données Open Medic
         │
         ▼
- Importation
+Importation
         │
         ▼
- Nettoyage
+Préparation
         │
         ▼
- Analyse exploratoire
-        │
- ┌──────┴─────────┐
- ▼                ▼
-Indicateurs   Visualisations
+Contrôle qualité
         │
         ▼
- Conclusions
+Nettoyage
+        │
+        ▼
+Feature engineering
+        │
+        ▼
+Analyse exploratoire
+        │
+        ▼
+Visualisations
+        │
+        ▼
+Rapport métier
 ```
 
 ---
@@ -85,7 +103,6 @@ Indicateurs   Visualisations
 ```text
 open-medic-ameli-analysis/
 
-│
 ├── data/
 │   ├── raw/
 │   ├── processed/
@@ -97,7 +114,9 @@ open-medic-ameli-analysis/
 │   ├── 03_controle_qualite_donnees.R
 │   ├── 04_nettoyage_donnees.R
 │   ├── 05_analyse_exploratoire.R
-│   └── 06_visualisations.R
+│   ├── 06_feature_engineering.R
+│   ├── 07_visualisations.R
+│   └── 08_article_metier.Rmd
 │
 ├── outputs/
 │   ├── anomalies/
@@ -106,10 +125,11 @@ open-medic-ameli-analysis/
 │   └── tableaux/
 │
 ├── docs/
+│   └── article_open_medic.html
 │
 ├── README.md
 ├── DESCRIPTION.md
-│
+├── .gitignore
 └── LICENSE
 ```
 
@@ -123,50 +143,90 @@ open-medic-ameli-analysis/
 | Manipulation de données | tidyverse |
 | Import Excel | readxl |
 | Visualisation | ggplot2 |
-| Documentation | R Markdown |
+| Cartographie | sf, mapsf |
+| Rapport | R Markdown |
+| Documentation | Markdown |
 | Versionning | Git & GitHub |
 
 ---
 
-# Jeux de données
+# Données utilisées
 
 Le projet utilise :
 
-- Open Medic
-- Dictionnaires AMELI
-- Classification ATC
-- Tables descriptives associées
+- Open Medic AMELI 2025 ;
+- dictionnaires descriptifs AMELI ;
+- classification ATC ;
+- tables de correspondance associées.
+
+Les fichiers de données ne sont pas versionnés dans le dépôt afin de respecter les bonnes pratiques GitHub.
 
 ---
 
 # Analyses réalisées
 
-Les analyses porteront notamment sur :
-- Audit de la qualité des données
-- Contrôle des valeurs manquantes
-- Contrôle des doublons
-- Contrôle de la cohérence métier
-- Distribution des remboursements
-- Médicaments les plus remboursés
-- Analyse par classe ATC
-- Analyse régionale
-- Analyse par âge
-- Analyse par sexe
-- Analyse des spécialités médicales
-- Détection des valeurs atypiques
+L'analyse répond à plusieurs questions métier :
+
+- Quelle est l'ampleur du marché des médicaments remboursés ?
+- Quels médicaments représentent les montants remboursés les plus élevés ?
+- Quels médicaments sont les plus délivrés ?
+- Les médicaments les plus remboursés sont-ils aussi les plus délivrés ?
+- Quelles classes thérapeutiques concentrent les remboursements ?
+- Quelle est la place des médicaments génériques ?
+- Comment les remboursements se répartissent-ils selon l'âge et le sexe ?
+- Les dépenses sont-elles réparties de manière homogène entre les régions ?
+- Quelles spécialités médicales génèrent les plus forts remboursements ?
+- Les remboursements sont-ils concentrés sur une faible proportion de médicaments ?
+- Quels médicaments présentent un fort impact budgétaire ?
+- Quels médicaments présentent le remboursement moyen par boîte le plus élevé ?
 
 ---
 
-# Évolutions prévues
+# Qualité des données
 
-Les prochaines étapes du projet seront :
+Le projet intègre un audit qualité avant tout nettoyage.
 
-- Création d'indicateurs métier
-- Tableaux de bord interactifs
-- Rapports automatisés
-- Modèles de Machine Learning
-- Prévision des remboursements
-- Classification des médicaments
+Les contrôles réalisés portent notamment sur :
+
+- les valeurs manquantes ;
+- les valeurs négatives ;
+- les doublons complets ;
+- les doublons dans les dictionnaires ;
+- les modalités inconnues ;
+- la cohérence métier ;
+- les valeurs atypiques.
+
+Un registre de qualité des données est produit dans :
+
+```text
+outputs/anomalies/
+```
+
+---
+
+# Visualisations produites
+
+Le projet produit plusieurs visualisations professionnelles :
+
+- cartes KPI de synthèse ;
+- top médicaments remboursés ;
+- top médicaments délivrés ;
+- comparaison remboursement versus volume ;
+- treemap des classes thérapeutiques ;
+- analyse des génériques ;
+- heatmap âge × sexe ;
+- carte régionale ;
+- analyse des prescripteurs ;
+- courbe de concentration ;
+- quadrant coût-volume ;
+- classification de l'impact budgétaire ;
+- coût moyen par boîte.
+
+Les figures sont enregistrées dans :
+
+```text
+outputs/figures/
+```
 
 ---
 
@@ -178,12 +238,26 @@ Les prochaines étapes du projet seront :
 | Documentation | ✅ |
 | Importation des données | ✅ |
 | Préparation des données | ✅ |
-| Contrôle qualité des données | ✅ |
+| Contrôle qualité | ✅ |
 | Nettoyage des données | ✅ |
-| Analyse exploratoire | ⏳ |
-| Visualisations | ⏳ |
-| Dashboard | ⏳ |
-| Machine Learning | ⏳ |
+| Feature engineering | ✅ |
+| Analyse exploratoire | ✅ |
+| Visualisations | ✅ |
+| Rapport métier HTML | ✅ |
+
+---
+
+# Évolutions possibles
+
+Des prolongements possibles du projet seraient :
+
+- publication du rapport via GitHub Pages ;
+- amélioration du design du rapport HTML ;
+- création d'une version PDF téléchargeable ;
+- création d'un tableau de bord interactif Shiny ;
+- comparaison avec plusieurs années Open Medic ;
+- analyse plus détaillée par classe thérapeutique ;
+- analyse régionale rapportée à la population.
 
 ---
 
@@ -191,8 +265,8 @@ Les prochaines étapes du projet seront :
 
 **Bile Isaac**
 
-Portfolio Data Science • Analyse de données • Machine Learning • Pharmacie
+Data Analytics • Data Science • R • Visualisation • Santé
 
 ---
 
-> **Objectif du projet :** développer une analyse reproductible des données Open Medic en appliquant les bonnes pratiques de la Data Science avec R. Le projet applique les bonnes pratiques de la Data Science en séparant les étapes d'importation, de préparation, d'audit qualité, de nettoyage et d'analyse des données afin de garantir la reproductibilité des traitements.
+> **Objectif du projet :** proposer une analyse exploratoire reproductible des données Open Medic en appliquant les bonnes pratiques de la Data Science : importation, contrôle qualité, préparation, nettoyage, visualisation et production d'insights métier.

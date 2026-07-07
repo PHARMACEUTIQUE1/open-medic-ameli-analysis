@@ -210,41 +210,52 @@ ggsave(filename = "outputs/figures/fig_03_remboursement_vs_boites.png",
 # ================= Classes thérapeutiques les plus coûteuses ==============
 
 # Question métier :
-# Quelles grandes classes thérapeutiques concentrent le plus de remboursements ?
+# Quelles grandes classes thérapeutiques concentrent le plus de remboursements 
 
-
-atc1_remboursement <- open_medic_features |>
+treemap_atc <- open_medic_features |>
   group_by(lib_atc1) |>
-  summarise(remboursement_total = sum(remboursement, na.rm = TRUE),
-    .groups = "drop") |>
+  summarise(remboursement_total = sum(remboursement, na.rm = TRUE),.groups = "drop") |>
   filter(!is.na(lib_atc1)) |>
-  arrange(desc(remboursement_total)) |>
-  mutate(lib_atc1 = fct_reorder(lib_atc1, remboursement_total))
+  mutate(part = remboursement_total / sum(remboursement_total) * 100,
+    etiquette = paste0(
+      lib_atc1, "\n",
+      label_number(scale_cut = cut_short_scale(), accuracy = 0.1)(remboursement_total)," €", "\n",round(part, 1), " %"))
 
-fig_04_classes_atc1_remboursement <- ggplot(
-  atc1_remboursement,
-  aes(x = lib_atc1, y = remboursement_total)) +
-  geom_col(fill = couleur_primaire, width = 0.75) +
-  geom_text(aes(label = label_number(scale_cut = cut_short_scale(), accuracy = 0.1)(remboursement_total)),
-    hjust = -0.1,
-    size = 3.5,
-    color = couleur_texte) +
-  coord_flip() +
-  scale_y_continuous(
-    labels = label_number(scale_cut = cut_short_scale()),
-    expand = expansion(mult = c(0, 0.15))) +
-  labs(title = "Les classes thérapeutiques qui concentrent le plus de remboursements",
-    subtitle = "Analyse par grande classe ATC niveau 1",
-    x = NULL,
-    y = "Montant remboursé (€)",
-    caption = "Source : Open Medic AMELI 2025") +theme_open_medic()
+fig_10_treemap_atc <- ggplot(
+  treemap_atc,
+  aes(area = remboursement_total,fill = lib_atc1,label = etiquette)) +
+  geom_treemap(colour = "white",linewidth = 1) +
+  geom_treemap_text(
+    colour = "white",
+    place = "centre",
+    grow = FALSE,
+    reflow = TRUE,
+    size = 10,
+    fontface = "bold",
+    min.size = 4
+  ) +
+  scale_fill_manual(
+    values = c(
+      "#2563EB", "#14B8A6", "#F59E0B", "#DC2626",
+      "#7C3AED", "#0891B2", "#65A30D", "#EA580C",
+      "#DB2777", "#4F46E5", "#0F766E", "#9333EA",
+      "#475569", "#CA8A04")) +
+  labs(
+    title = "Quelles classes thérapeutiques concentrent les remboursements ?",
+    subtitle = "Répartition des remboursements par grande classe ATC",
+    caption = "Source : Open Medic AMELI 2025") +
+  theme_void() +
+  theme(
+    plot.title = element_text(face = "bold", size = 18, color = couleur_texte),
+    plot.subtitle = element_text(size = 12, color = "#4B5563"),
+    plot.caption = element_text(size = 9, color = "#6B7280"),
+    legend.position = "none",
+    plot.background = element_rect(fill = "white", color = NA))
+fig_10_treemap_atc
 
-fig_04_classes_atc1_remboursement
-
-ggsave(filename = "outputs/figures/fig_04_classes_atc1_remboursement.png",
-  plot = fig_04_classes_atc1_remboursement,
+ggsave("outputs/figures/fig_10_treemap_atc.png",
+  fig_10_treemap_atc,
   width = 13,height = 8,dpi = 300)
-
 
 # ======= Les médicaments génériques occupent-ils une place importante ? ===
 
@@ -439,8 +450,7 @@ mf_label(
 )
 mf_title("Remboursements de médicaments par région : où va l'argent de l'Assurance Maladie ?")
 mf_credits("Source : Open Medic AMELI 2025")
-
-#dev.off()
+dev.off()
 
 
 
