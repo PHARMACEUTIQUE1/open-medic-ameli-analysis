@@ -48,4 +48,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update Open Medic report"
-          file_pattern: "docs/* outputs/figures/* outputs/tableaux/* data/processed/*"
+          file_pattern: "config.R docs/* outputs/figures/* outputs/tableaux/* data/processed/*"
