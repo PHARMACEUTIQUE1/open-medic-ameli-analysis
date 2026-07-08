@@ -102,5 +102,12 @@ rmarkdown::render(
 # ========Création d'un alias vers le dernier rapport ==========
 
 file.copy(from = path_report, to = file.path("docs", "article_open_medic.html"), overwrite = TRUE)
+
+#============ Génération du rapport PDF =============
+path_report_pdf <- file.path("docs",paste0("article_open_medic_", annee_open_medic, ".pdf"))
+pagedown::chrome_print(input = path_report,output = path_report_pdf)
+file.copy(from = path_report_pdf,to = file.path("docs", "article_open_medic.pdf"),overwrite = TRUE)
+message("Rapport PDF généré.")
+
 message("Alias du dernier rapport créé.")
 message("Pipeline terminé avec succès.")

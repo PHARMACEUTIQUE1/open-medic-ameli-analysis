@@ -26,7 +26,9 @@ Cette étude met l'accent sur la production d'**insights métier** à partir de 
 
 # Rapport métier
 
-➡️ https://bileisaac.github.io/open-medic-ameli-analysis/article_open_medic.html.
+➡️ [Lire le rapport HTML](https://bileisaac.github.io/open-medic-ameli-analysis/article_open_medic.html)
+
+📄 [Télécharger le rapport PDF](https://bileisaac.github.io/open-medic-ameli-analysis/article_open_medic.pdf)
 
 ---
 
