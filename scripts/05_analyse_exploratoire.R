@@ -341,4 +341,4 @@ synthese_metier <- tibble(
 synthese_metier
 
 write_csv(synthese_metier,"outputs/tableaux/eda_15_synthese_metier.csv")
-message("Analyse exploratoire terminée avec succès.")
+message("Analyse exploratoire terminée pour l'année ", annee_open_medic, ".")

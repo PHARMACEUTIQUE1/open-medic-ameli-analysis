@@ -1,5 +1,5 @@
 id,anomalie,nb_observations,decision,justification,statut
-AQ-001,Valeurs négatives,234,Supprimées,"Régularisations ; impact inférieur à 0,01 %",Résolu
+AQ-001,Valeurs négatives,135,Supprimées,"Régularisations ; impact inférieur à 0,01 %",Résolu
 AQ-002,Doublons du dictionnaire CIP13,0,Dernier libellé conservé,Historique probable des dénominations commerciales,Résolu
-AQ-003,Modalités inconnues,812975,Conservées,Information absente mais exploitable,Résolu
-AQ-004,REM supérieur à BSE,324,Conservées,Probables effets d'agrégation ou d'arrondis,À surveiller
+AQ-003,Modalités inconnues,304830,Conservées,Information absente mais exploitable,Résolu
+AQ-004,REM supérieur à BSE,87,Conservées,Probables effets d'agrégation ou d'arrondis,À surveiller

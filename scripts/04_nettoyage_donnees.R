@@ -31,48 +31,32 @@ message("Nettoyage étape 1 terminé : valeurs négatives supprimées.")
 
 open_medic_clean <- open_medic_clean |>
   select(
-    ATC1, l_ATC1, ATC2, L_ATC2, ATC3, L_ATC3,
-    ATC4, L_ATC4, ATC5, L_ATC5,
-    CIP13, `Libellé CIP13`,
-    TOP_GEN, `Libellé Top Générique`,
-    `Libellé Tranche d'Age Bénéficiaire`,
-    `Libellé Sexe du Bénéficiaire`,
-    `Libellé Région de Résidence du Bénéficiaire`,
-    `Libellé Prescripteur`,
-    BOITES, REM, BSE
-  )
-message("Nettoyage étape 2 terminé : colonnes pas importants supprimées.")
-
-
-#------------------- Renommage des variables ------------------
-open_medic_clean <- open_medic_clean |>
-  rename(
     atc1 = ATC1,
-    lib_atc1 = l_ATC1,
+    lib_atc1,
     atc2 = ATC2,
-    lib_atc2 = L_ATC2,
+    lib_atc2,
     atc3 = ATC3,
-    lib_atc3 = L_ATC3,
+    lib_atc3,
     atc4 = ATC4,
-    lib_atc4 = L_ATC4,
+    lib_atc4,
     atc5 = ATC5,
-    lib_atc5 = L_ATC5,
+    lib_atc5,
     cip13 = CIP13,
-    lib_cip13 = `Libellé CIP13`,
+    lib_cip13,
     top_gen = TOP_GEN,
-    lib_top_gen = `Libellé Top Générique`,
-    tranche_age = `Libellé Tranche d'Age Bénéficiaire`,
-    sexe = `Libellé Sexe du Bénéficiaire`,
-    region = `Libellé Région de Résidence du Bénéficiaire`,
-    prescripteur = `Libellé Prescripteur`,
+    lib_top_gen,
+    gen_num = GEN_NUM,
+    lib_gen_num,
+    tranche_age,
+    sexe,
+    region,
+    prescripteur,
     boites = BOITES,
     remboursement = REM,
     base_remboursement = BSE
   )
 glimpse(open_medic_clean)
-message("Nettoyage étape 3 terminé : variables renommées.")
-
-
+message("Nettoyage étape 3 terminé : variables sélectionnées et renommées.")
 
 
 #-------------- Traitement des modalités inconnues -----------------
@@ -176,7 +160,6 @@ message("Validation finale terminée.")
 #-------------- Sauvegarde des données nettoyées ------------
 
 dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
-saveRDS(open_medic_clean, "data/processed/open_medic_clean.rds")
-write_csv(open_medic_clean, "data/processed/open_medic_clean.csv")
-
-message("Données nettoyées sauvegardées.")
+saveRDS(open_medic_clean, path_clean)
+write_csv(open_medic_clean, file.path("data","processed",paste0("open_medic_clean_", annee_open_medic, ".csv")))
+message("Données nettoyées sauvegardées pour l'année ", annee_open_medic, ".")

@@ -122,10 +122,10 @@ controle_identifiants
 # Modalités inconnues
 modalites_inconnues <- open_medic_prepare |>
   summarise(
-    age_inconnu = sum(`Libellé Tranche d'Age Bénéficiaire` == "INCONNU", na.rm = TRUE),
-    sexe_inconnu = sum(`Libellé Sexe du Bénéficiaire` == "VALEUR INCONNUE", na.rm = TRUE),
-    region_inconnue = sum(`Libellé Région de Résidence du Bénéficiaire` == "INCONNU", na.rm = TRUE),
-    prescripteur_inconnu = sum(`Libellé Prescripteur` == "VALEUR INCONNUE", na.rm = TRUE)
+    age_inconnu = sum(tranche_age == "INCONNU", na.rm = TRUE),
+    sexe_inconnu = sum(sexe == "VALEUR INCONNUE", na.rm = TRUE),
+    region_inconnue = sum(region == "INCONNU", na.rm = TRUE),
+    prescripteur_inconnu = sum(prescripteur == "VALEUR INCONNUE", na.rm = TRUE)
   )
 modalites_inconnues
 
@@ -169,4 +169,4 @@ write_csv(resume_numerique, "outputs/tableaux/resume_statistiques_numeriques.csv
 write_csv(resume_doublons_dictionnaires, "outputs/tableaux/controle_doublons_dictionnaires.csv")
 write_csv(doublons_cip13, "outputs/tableaux/doublons_cip13.csv")
 
-message("Contrôle qualité des données terminé.")
+message("Contrôle qualité des données terminé pour l'année ", annee_open_medic, ".")

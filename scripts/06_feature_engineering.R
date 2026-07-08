@@ -8,13 +8,13 @@ library(tidyverse)
 
 # ------------- Chargement des données nettoyées -------------------
 
-path_data <- "data/processed/open_medic_clean.rds"
-stopifnot(file.exists(path_data))
-open_medic_clean <- readRDS(path_data)
+source("config.R")
+stopifnot(file.exists(path_clean))
+open_medic_clean <- readRDS(path_clean)
 glimpse(open_medic_clean)
 message("Données nettoyées chargées.")
 open_medic_features <- open_medic_clean
-
+dir.create("outputs/tableaux", recursive = TRUE, showWarnings = FALSE)
 # ============= Taux de remboursement ==============
 # Question métier :
 # Quelle proportion de la base de remboursement est effectivement prise
@@ -159,11 +159,68 @@ count(open_medic_features, impact_budgetaire)
 message("Variable créée : impact_budgetaire.")
 
 
-# +++++++++++++++++++ Sauvegarde des  données enrichies ++++++++++++++++++
+# ====== Combien AMELI rembourse en moyenne par observation ? ======
 
+indicateur_remboursement_moyen <- open_medic_features |>
+  summarise(
+    nb_observations = n(),
+    remboursement_total = sum(remboursement, na.rm = TRUE),
+    remboursement_moyen_observation = mean(remboursement, na.rm = TRUE),
+    base_remboursement_moyenne = mean(base_remboursement, na.rm = TRUE),
+    boites_moyennes = mean(boites, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+write_csv(indicateur_remboursement_moyen,
+  file.path("outputs","tableaux",paste0("fe_01_remboursement_moyen_observation_", annee_open_medic, ".csv")))
+message("Indicateur créé : remboursement moyen par observation.")
+
+
+
+# ======== Combien AMELI rembourse en moyenne par âge et par sexe ? =====
+
+remboursement_moyen_age_sexe <- open_medic_features |>
+  group_by(tranche_age, sexe) |>
+  summarise(
+    nb_observations = n(),
+    remboursement_total = sum(remboursement, na.rm = TRUE),
+    remboursement_moyen = mean(remboursement, na.rm = TRUE),
+    base_remboursement_moyenne = mean(base_remboursement, na.rm = TRUE),
+    boites_totales = sum(boites, na.rm = TRUE),
+    boites_moyennes = mean(boites, na.rm = TRUE),.groups = "drop" ) |>
+  arrange(desc(remboursement_moyen))
+
+write_csv(remboursement_moyen_age_sexe,
+  file.path("outputs","tableaux",paste0("fe_02_remboursement_moyen_age_sexe_", annee_open_medic, ".csv")))
+message("Indicateur créé : remboursement moyen par âge et sexe.")
+
+
+
+# ========== Combien AMELI rembourse en moyenne selon le prescripteur ? =========
+
+remboursement_moyen_prescripteur <- open_medic_features |>
+  group_by(prescripteur) |>
+  summarise(
+    nb_observations = n(),
+    nb_medicaments = n_distinct(cip13),
+    remboursement_total = sum(remboursement, na.rm = TRUE),
+    remboursement_moyen = mean(remboursement, na.rm = TRUE),
+    base_remboursement_moyenne = mean(base_remboursement, na.rm = TRUE),
+    boites_totales = sum(boites, na.rm = TRUE),
+    boites_moyennes = mean(boites, na.rm = TRUE),
+    .groups = "drop") |>
+  filter(!is.na(prescripteur)) |>
+  arrange(desc(remboursement_moyen))
+
+write_csv(remboursement_moyen_prescripteur,
+  file.path("outputs","tableaux",paste0("fe_03_remboursement_moyen_prescripteur_", annee_open_medic, ".csv")))
+
+message("Indicateur créé : remboursement moyen par prescripteur.")
+
+# +++++++++++++++++++ Sauvegarde des  données enrichies ++++++++++++++++++
 
 dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 
-saveRDS(open_medic_features,"data/processed/open_medic_features.rds")
-write_csv(open_medic_features,"data/processed/open_medic_features.csv")
-message("Feature engineering terminé avec succès.")
+saveRDS(open_medic_features, path_features)
+write_csv(open_medic_features, file.path("data","processed",paste0("open_medic_features_", annee_open_medic, ".csv")))
+message("Feature engineering terminé avec succès pour l'année ", annee_open_medic, ".")
