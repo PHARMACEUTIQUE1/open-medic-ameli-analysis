@@ -41,9 +41,9 @@ detect_last_open_medic_year <- function() {
 # Mettre NULL pour détecter automatiquement la dernière année disponible.
 # Ou renseigner une année précise (2022, 2023, 2024, ...)
 
-annee_open_medic <- NULL
-# annee_open_medic <- 2024
-# annee_open_medic <- 2023
+#annee_open_medic <- NULL
+#annee_open_medic <- 2024
+ annee_open_medic <- 2023
 # annee_open_medic <- 2022
 # annee_open_medic <- 2021
 # annee_open_medic <- 2020
