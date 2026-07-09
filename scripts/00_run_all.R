@@ -100,7 +100,6 @@ rmarkdown::render(
 
 
 # ========Création d'un alias vers le dernier rapport ==========
-
 file.copy(from = path_report, to = file.path("docs", "article_open_medic.html"),overwrite = TRUE)
 file.copy(from = path_report, to = file.path("docs", "index.html"),overwrite = TRUE)
 
